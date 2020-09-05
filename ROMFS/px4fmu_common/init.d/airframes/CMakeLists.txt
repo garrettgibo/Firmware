@@ -32,6 +32,9 @@
 ############################################################################
 
 px4_add_romfs_files(
+  # Artemis Lander
+  4242_lander
+
 	# [0-999] Reserved (historical)"
 
 	# [1000, 1999] Simulation setups"
