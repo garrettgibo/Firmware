@@ -103,6 +103,14 @@
 #include <uORB/topics/vehicle_trajectory_bezier.h>
 #include <uORB/topics/vehicle_trajectory_waypoint.h>
 
+/* Custom Messages ----------------------------------------------------------- */
+#include <uORB/topics/actuator_status.h>
+#include <uORB/topics/thruster_status.h>
+// TODO: Include generated mavlink messages
+/* --------------------------------------------------------------------------- */
+
+
+
 class Mavlink;
 
 class MavlinkReceiver : public ModuleParams
@@ -179,6 +187,10 @@ private:
 	void handle_message_utm_global_position(mavlink_message_t *msg);
 	void handle_message_vision_position_estimate(mavlink_message_t *msg);
 	void handle_message_onboard_computer_status(mavlink_message_t *msg);
+
+	// Custom Messages
+	void handle_message_thruster_status_msg(mavlink_message_t *msg);
+	void handle_message_actuator_status_msg(mavlink_message_t *msg);
 
 
 	void Run();
@@ -260,6 +272,10 @@ private:
 	uORB::Publication<vehicle_rates_setpoint_s>		_rates_sp_pub{ORB_ID(vehicle_rates_setpoint)};
 	uORB::Publication<vehicle_trajectory_bezier_s>	_trajectory_bezier_pub{ORB_ID(vehicle_trajectory_bezier)};
 	uORB::Publication<vehicle_trajectory_waypoint_s>	_trajectory_waypoint_pub{ORB_ID(vehicle_trajectory_waypoint)};
+
+        // Custom ORB Publications
+	uORB::Publication<actuator_status_s>                    _actuator_status_msg_pub{ORB_ID(actuator_status)};
+	uORB::Publication<thruster_status_s>                    _thruster_status_msg_pub{ORB_ID(thruster_status)};
 
 	// ORB publications (multi)
 	uORB::PublicationMulti<distance_sensor_s>		_distance_sensor_pub{ORB_ID(distance_sensor)};

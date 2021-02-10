@@ -35,6 +35,10 @@
 cmake_policy(SET CMP0057 NEW)
 
 set(msg_files
+	# custom messages ------------------------------------------------------#
+	thruster_status.msg
+	actuator_status.msg
+	# ----------------------------------------------------------------------#
 	actuator_armed.msg
 	actuator_controls.msg
 	actuator_outputs.msg

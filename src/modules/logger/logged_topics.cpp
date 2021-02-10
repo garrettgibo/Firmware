@@ -44,6 +44,10 @@ using namespace px4::logger;
 
 void LoggedTopics::add_default_topics()
 {
+	/* Add Custom Topics **************************************************/
+	add_topic("actuator_status");
+	add_topic("thruster_status");
+	/**********************************************************************/
 	add_topic("actuator_armed");
 	add_topic("actuator_controls_0", 100);
 	add_topic("actuator_controls_1", 100);

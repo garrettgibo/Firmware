@@ -110,7 +110,19 @@ MavlinkReceiver::acknowledge(uint8_t sysid, uint8_t compid, uint16_t command, ui
 void
 MavlinkReceiver::handle_message(mavlink_message_t *msg)
 {
+		handle_message_thruster_status_msg(msg);
+		handle_message_actuator_status_msg(msg);
 	switch (msg->msgid) {
+	// Custom Mavlink Messages ---------------------------------------------
+	// case MAVLINK_MSG_ID_ACTUATOR_STATUS:
+	// 	handle_message_thruster_status_msg(msg);
+	// 	break;
+
+	// case MAVLINK_MSG_ID_THRUSTER_STATUS:
+	// 	handle_message_actuator_status_msg(msg);
+	// 	break;
+	// ---------------------------------------------------------------------
+
 	case MAVLINK_MSG_ID_COMMAND_LONG:
 		handle_message_command_long(msg);
 		break;
@@ -344,6 +356,45 @@ MavlinkReceiver::evaluate_target_ok(int command, int target_system, int target_c
 	}
 
 	return target_ok;
+}
+
+// Handle Custom Mavlink messages
+void
+MavlinkReceiver::handle_message_actuator_status_msg(mavlink_message_t *msg)
+{
+  /* command */
+  // mavlink_actuator_status_t status;
+  // mavlink_msg_actuator_status_decode(msg, &status);
+
+  struct actuator_status_s f;
+  memset(&f, 0, sizeof(f));
+
+  f.timestamp = hrt_absolute_time();
+
+  /* Copy mavlink_actuator_status_t msg_mavlink into actuator_status msg */
+  f.data[0] = 1.1;
+  f.data[1] = 1.2;
+
+  _actuator_status_msg_pub.publish(f);
+}
+
+void
+MavlinkReceiver::handle_message_thruster_status_msg(mavlink_message_t *msg)
+{
+  /* command */
+  // mavlink_actuator_status_t status;
+  // mavlink_msg_actuator_status_decode(msg, &status);
+
+  struct thruster_status_s f;
+  memset(&f, 0, sizeof(f));
+
+  f.timestamp = hrt_absolute_time();
+
+  /* Copy mavlink_actuator_status_t msg_mavlink into actuator_status msg */
+  f.data[0] = 1.1;
+  f.data[1] = 1.2;
+
+  _thruster_status_msg_pub.publish(f);
 }
 
 void
