@@ -117,6 +117,7 @@ px4_add_board(
 		usb_connected
 		ver
 		work_queue
+		key_receiver
 	EXAMPLES
 		fake_magnetometer
 		fixedwing_control # Tutorial code from https://px4.io/dev/example_fixedwing_control
