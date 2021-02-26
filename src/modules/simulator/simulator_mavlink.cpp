@@ -272,6 +272,29 @@ void Simulator::update_sensors(const hrt_abstime &time, const mavlink_hil_sensor
 void Simulator::handle_message(const mavlink_message_t *msg)
 {
 	switch (msg->msgid) {
+
+	// Custom Messages ----------------------------------------------------------
+	case MAVLINK_MSG_ID_ACTUATOR_STATUS:
+		handle_message_actuator_status_msg(msg);
+		break;
+
+	case MAVLINK_MSG_ID_NEW_XY_STATUS:
+		handle_message_new_xy_status_msg(msg);
+		break;
+
+	case MAVLINK_MSG_ID_ROLL_PITCH_STATUS:
+		handle_message_roll_pitch_status_msg(msg);
+		break;
+
+	case MAVLINK_MSG_ID_THRUSTER_STATUS:
+		handle_message_thruster_status_msg(msg);
+		break;
+
+	case MAVLINK_MSG_ID_THRUSTER_YAW_STATUS:
+		handle_message_thruster_yaw_status_msg(msg);
+		break;
+    // --------------------------------------------------------------------------
+
 	case MAVLINK_MSG_ID_HIL_SENSOR:
 		handle_message_hil_sensor(msg);
 		break;
@@ -309,6 +332,99 @@ void Simulator::handle_message(const mavlink_message_t *msg)
 		break;
 	}
 }
+
+// message handlers -------------------------------------------------------------
+void Simulator::handle_message_actuator_status_msg(
+    const mavlink_message_t *msg) {
+  // command
+  mavlink_actuator_status_t status;
+  mavlink_msg_actuator_status_decode(msg, &status);
+
+  struct actuator_status_s f;
+  memset(&f, 0, sizeof(f));
+
+  f.timestamp = hrt_absolute_time();
+
+  // Copy mavlink_actuator_status_t msg_mavlink into actuator_status msg
+  f.actuator_1 = status.actuator_1;
+  f.actuator_2 = status.actuator_2;
+
+  _actuator_status_msg_pub.publish(f);
+}
+
+void Simulator::handle_message_new_xy_status_msg(const mavlink_message_t *msg) {
+  // command
+  mavlink_new_xy_status_t status;
+  mavlink_msg_new_xy_status_decode(msg, &status);
+
+  struct new_xy_status_s f;
+  memset(&f, 0, sizeof(f));
+
+  f.timestamp = hrt_absolute_time();
+
+  // Copy mavlink_new_xy_status_t msg_mavlink into new_xy_status msg
+  f.new_x = status.new_x;
+  f.new_y = status.new_y;
+
+  _new_xy_status_msg_pub.publish(f);
+}
+
+void Simulator::handle_message_roll_pitch_status_msg(
+    const mavlink_message_t *msg) {
+  // command
+  mavlink_roll_pitch_status_t status;
+  mavlink_msg_roll_pitch_status_decode(msg, &status);
+
+  struct roll_pitch_status_s f;
+  memset(&f, 0, sizeof(f));
+
+  f.timestamp = hrt_absolute_time();
+
+  // Copy mavlink_roll_pitch_status_t msg_mavlink into roll_pitch_status msg
+  f.roll_target = status.roll_target;
+  f.pitch_target = status.pitch_target;
+
+  _roll_pitch_status_msg_pub.publish(f);
+}
+
+void Simulator::handle_message_thruster_status_msg(
+    const mavlink_message_t *msg) {
+  // command
+  mavlink_thruster_status_t status;
+  mavlink_msg_thruster_status_decode(msg, &status);
+
+  struct thruster_status_s f;
+  memset(&f, 0, sizeof(f));
+
+  f.timestamp = hrt_absolute_time();
+
+  // Copy mavlink_thruster_status_t msg_mavlink into thruster_status msg
+  f.thruster_1 = status.thruster_1;
+  f.thruster_2 = status.thruster_2;
+  f.thruster_3 = status.thruster_3;
+  f.thruster_4 = status.thruster_4;
+
+  _thruster_status_msg_pub.publish(f);
+}
+
+void Simulator::handle_message_thruster_yaw_status_msg(
+    const mavlink_message_t *msg) {
+  // command
+  mavlink_thruster_yaw_status_t status;
+  mavlink_msg_thruster_yaw_status_decode(msg, &status);
+
+  struct thruster_yaw_status_s f;
+  memset(&f, 0, sizeof(f));
+
+  f.timestamp = hrt_absolute_time();
+
+  // Copy mavlink_thruster_yaw_status_t msg_mavlink into thruster_yaw_status msg
+  f.thruster_yaw_1 = status.thruster_yaw_1;
+  f.thruster_yaw_2 = status.thruster_yaw_2;
+
+  _thruster_yaw_status_msg_pub.publish(f);
+}
+// -----------------------------------------------------------------------------
 
 void Simulator::handle_message_distance_sensor(const mavlink_message_t *msg)
 {

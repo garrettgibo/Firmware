@@ -103,11 +103,13 @@
 #include <uORB/topics/vehicle_trajectory_bezier.h>
 #include <uORB/topics/vehicle_trajectory_waypoint.h>
 
-/* Custom Messages ----------------------------------------------------------- */
+// Custom Messages -------------------------------------------------------------
 #include <uORB/topics/actuator_status.h>
+#include <uORB/topics/new_xy_status.h>
+#include <uORB/topics/roll_pitch_status.h>
 #include <uORB/topics/thruster_status.h>
-// TODO: Include generated mavlink messages
-/* --------------------------------------------------------------------------- */
+#include <uORB/topics/thruster_yaw_status.h>
+// -----------------------------------------------------------------------------
 
 
 
@@ -188,9 +190,13 @@ private:
 	void handle_message_vision_position_estimate(mavlink_message_t *msg);
 	void handle_message_onboard_computer_status(mavlink_message_t *msg);
 
-	// Custom Messages
-	void handle_message_thruster_status_msg(mavlink_message_t *msg);
+	// Custom Messages -----------------------------------------------------------
 	void handle_message_actuator_status_msg(mavlink_message_t *msg);
+	void handle_message_new_xy_status_msg(mavlink_message_t *msg);
+	void handle_message_roll_pitch_status_msg(mavlink_message_t *msg);
+	void handle_message_thruster_status_msg(mavlink_message_t *msg);
+	void handle_message_thruster_yaw_status_msg(mavlink_message_t *msg);
+	// ---------------------------------------------------------------------------
 
 
 	void Run();
@@ -273,9 +279,13 @@ private:
 	uORB::Publication<vehicle_trajectory_bezier_s>	_trajectory_bezier_pub{ORB_ID(vehicle_trajectory_bezier)};
 	uORB::Publication<vehicle_trajectory_waypoint_s>	_trajectory_waypoint_pub{ORB_ID(vehicle_trajectory_waypoint)};
 
-        // Custom ORB Publications
-	uORB::Publication<actuator_status_s>                    _actuator_status_msg_pub{ORB_ID(actuator_status)};
-	uORB::Publication<thruster_status_s>                    _thruster_status_msg_pub{ORB_ID(thruster_status)};
+	// Custom ORB Publications ---------------------------------------------------
+	uORB::Publication<actuator_status_s>     _actuator_status_msg_pub{ORB_ID(actuator_status)};
+	uORB::Publication<new_xy_status_s>       _new_xy_status_msg_pub{ORB_ID(new_xy_status)};
+	uORB::Publication<roll_pitch_status_s>   _roll_pitch_status_msg_pub{ORB_ID(roll_pitch_status)};
+	uORB::Publication<thruster_status_s>     _thruster_status_msg_pub{ORB_ID(thruster_status)};
+	uORB::Publication<thruster_yaw_status_s> _thruster_yaw_status_msg_pub{ORB_ID(thruster_yaw_status)};
+	// ---------------------------------------------------------------------------
 
 	// ORB publications (multi)
 	uORB::PublicationMulti<distance_sensor_s>		_distance_sensor_pub{ORB_ID(distance_sensor)};
