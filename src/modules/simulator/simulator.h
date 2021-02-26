@@ -72,6 +72,13 @@
 #include <uORB/topics/vehicle_local_position.h>
 #include <uORB/topics/vehicle_odometry.h>
 #include <uORB/topics/vehicle_status.h>
+// Custom Messages -----------------------------------------------------------
+#include <uORB/topics/actuator_status.h>
+#include <uORB/topics/new_xy_status.h>
+#include <uORB/topics/roll_pitch_status.h>
+#include <uORB/topics/thruster_status.h>
+#include <uORB/topics/thruster_yaw_status.h>
+// ---------------------------------------------------------------------------
 
 #include <random>
 
@@ -203,6 +210,14 @@ private:
 	void handle_message_rc_channels(const mavlink_message_t *msg);
 	void handle_message_vision_position_estimate(const mavlink_message_t *msg);
 
+	// Custom Messages ----------------------------------------------------------
+	void handle_message_actuator_status_msg(const mavlink_message_t *msg);
+	void handle_message_new_xy_status_msg(const mavlink_message_t *msg);
+	void handle_message_roll_pitch_status_msg(const mavlink_message_t *msg);
+	void handle_message_thruster_status_msg(const mavlink_message_t *msg);
+	void handle_message_thruster_yaw_status_msg(const mavlink_message_t *msg);
+	// --------------------------------------------------------------------------
+
 	void parameters_update(bool force);
 	void poll_for_MAVLink_messages();
 	void request_hil_state_quaternion();
@@ -218,11 +233,19 @@ private:
 
 
 	// uORB publisher handlers
-	uORB::Publication<vehicle_angular_velocity_s>	_vehicle_angular_velocity_ground_truth_pub{ORB_ID(vehicle_angular_velocity_groundtruth)};
-	uORB::Publication<vehicle_attitude_s>		_attitude_ground_truth_pub{ORB_ID(vehicle_attitude_groundtruth)};
-	uORB::Publication<vehicle_global_position_s>	_gpos_ground_truth_pub{ORB_ID(vehicle_global_position_groundtruth)};
-	uORB::Publication<vehicle_local_position_s>	_lpos_ground_truth_pub{ORB_ID(vehicle_local_position_groundtruth)};
-	uORB::Publication<input_rc_s>			_input_rc_pub{ORB_ID(input_rc)};
+	uORB::Publication<vehicle_angular_velocity_s> _vehicle_angular_velocity_ground_truth_pub{ORB_ID(vehicle_angular_velocity_groundtruth)};
+	uORB::Publication<vehicle_attitude_s> _attitude_ground_truth_pub{ORB_ID(vehicle_attitude_groundtruth)};
+	uORB::Publication<vehicle_global_position_s> _gpos_ground_truth_pub{ORB_ID(vehicle_global_position_groundtruth)};
+	uORB::Publication<vehicle_local_position_s> _lpos_ground_truth_pub{ORB_ID(vehicle_local_position_groundtruth)};
+	uORB::Publication<input_rc_s> _input_rc_pub{ORB_ID(input_rc)};
+
+	// Custom ORB Publications ---------------------------------------------------
+	uORB::Publication<actuator_status_s> _actuator_status_msg_pub{ORB_ID(actuator_status)};
+	uORB::Publication<new_xy_status_s> _new_xy_status_msg_pub{ORB_ID(new_xy_status)};
+	uORB::Publication<roll_pitch_status_s> _roll_pitch_status_msg_pub{ORB_ID(roll_pitch_status)};
+	uORB::Publication<thruster_status_s> _thruster_status_msg_pub{ORB_ID(thruster_status)};
+	uORB::Publication<thruster_yaw_status_s> _thruster_yaw_status_msg_pub{ORB_ID(thruster_yaw_status)};
+	// --------------------------------------------------------------------------
 
 	// HIL GPS
 	static constexpr int MAX_GPS = 3;
