@@ -48,6 +48,7 @@ void LoggedTopics::add_default_topics()
 	add_topic("actuator_status");
 	add_topic("new_xy_status");
 	add_topic("roll_pitch_status");
+	add_topic("roll_pitch_setpoint");
 	add_topic("thruster_status");
 	add_topic("thruster_yaw_status");
 	/**********************************************************************/
