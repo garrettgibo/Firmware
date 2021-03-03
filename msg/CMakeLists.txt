@@ -39,6 +39,7 @@ set(msg_files
 	actuator_status.msg
 	new_xy_status.msg
 	roll_pitch_status.msg
+	roll_pitch_setpoint.msg
 	thruster_status.msg
 	thruster_yaw_status.msg
 	# ----------------------------------------------------------------------
