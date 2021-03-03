@@ -286,6 +286,10 @@ void Simulator::handle_message(const mavlink_message_t *msg)
 		handle_message_roll_pitch_status_msg(msg);
 		break;
 
+	case MAVLINK_MSG_ID_ROLL_PITCH_SETPOINT:
+		handle_message_roll_pitch_setpoint_msg(msg);
+		break;
+
 	case MAVLINK_MSG_ID_THRUSTER_STATUS:
 		handle_message_thruster_status_msg(msg);
 		break;
@@ -385,6 +389,24 @@ void Simulator::handle_message_roll_pitch_status_msg(
   f.pitch_target = status.pitch_target;
 
   _roll_pitch_status_msg_pub.publish(f);
+}
+
+void Simulator::handle_message_roll_pitch_setpoint_msg(
+    const mavlink_message_t *msg) {
+  // command
+  mavlink_roll_pitch_setpoint_t status;
+  mavlink_msg_roll_pitch_setpoint_decode(msg, &status);
+
+  struct roll_pitch_setpoint_s f;
+  memset(&f, 0, sizeof(f));
+
+  f.timestamp = hrt_absolute_time();
+
+  // Copy mavlink_roll_pitch_setpoint_t msg_mavlink into roll_pitch_setpoint msg
+  f.roll_setpoint = status.roll_setpoint;
+  f.pitch_setpoint = status.pitch_setpoint;
+
+  _roll_pitch_setpoint_msg_pub.publish(f);
 }
 
 void Simulator::handle_message_thruster_status_msg(
