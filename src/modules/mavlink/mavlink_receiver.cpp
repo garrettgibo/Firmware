@@ -386,7 +386,14 @@ void MavlinkReceiver::handle_message_actuator_status_msg(
 
   // Copy mavlink_actuator_status_t msg_mavlink into actuator_status msg
   f.actuator_1 = status.actuator_1;
+  f.actuator_1_target = status.actuator_1_target;
+  f.actuator_1_current = status.actuator_1_current;
+  f.actuator_1_velocity = status.actuator_1_velocity;
+
   f.actuator_2 = status.actuator_2;
+  f.actuator_2_target = status.actuator_2_target;
+  f.actuator_2_current = status.actuator_2_current;
+  f.actuator_2_velocity = status.actuator_2_velocity;
 
   _actuator_status_msg_pub.publish(f);
 }
