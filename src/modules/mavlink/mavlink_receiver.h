@@ -110,6 +110,7 @@
 #include <uORB/topics/roll_pitch_setpoint.h>
 #include <uORB/topics/thruster_status.h>
 #include <uORB/topics/thruster_yaw_status.h>
+#include <uORB/topics/vehicle_angular_rates.h>
 // -----------------------------------------------------------------------------
 
 
@@ -198,6 +199,7 @@ private:
 	void handle_message_roll_pitch_setpoint_msg(mavlink_message_t *msg);
 	void handle_message_thruster_status_msg(mavlink_message_t *msg);
 	void handle_message_thruster_yaw_status_msg(mavlink_message_t *msg);
+	void handle_message_vehicle_angular_rates_msg(mavlink_message_t *msg);
 	// ---------------------------------------------------------------------------
 
 
@@ -288,6 +290,7 @@ private:
 	uORB::Publication<roll_pitch_setpoint_s>   _roll_pitch_setpoint_msg_pub{ORB_ID(roll_pitch_setpoint)};
 	uORB::Publication<thruster_status_s>     _thruster_status_msg_pub{ORB_ID(thruster_status)};
 	uORB::Publication<thruster_yaw_status_s> _thruster_yaw_status_msg_pub{ORB_ID(thruster_yaw_status)};
+	uORB::Publication<vehicle_angular_rates_s> _vehicle_angular_rates_msg_pub{ORB_ID(vehicle_angular_rates)};
 	// ---------------------------------------------------------------------------
 
 	// ORB publications (multi)

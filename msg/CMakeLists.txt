@@ -42,6 +42,7 @@ set(msg_files
 	roll_pitch_setpoint.msg
 	thruster_status.msg
 	thruster_yaw_status.msg
+	vehicle_angular_rates.msg
 	# ----------------------------------------------------------------------
 	actuator_armed.msg
 	actuator_controls.msg

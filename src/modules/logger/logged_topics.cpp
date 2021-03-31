@@ -51,6 +51,7 @@ void LoggedTopics::add_default_topics()
 	add_topic("roll_pitch_setpoint");
 	add_topic("thruster_status");
 	add_topic("thruster_yaw_status");
+	add_topic("vehicle_angular_rates");
 	/**********************************************************************/
 	add_topic("actuator_armed");
 	add_topic("actuator_controls_0", 100);

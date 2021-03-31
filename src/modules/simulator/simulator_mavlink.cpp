@@ -297,6 +297,10 @@ void Simulator::handle_message(const mavlink_message_t *msg)
 	case MAVLINK_MSG_ID_THRUSTER_YAW_STATUS:
 		handle_message_thruster_yaw_status_msg(msg);
 		break;
+
+	case MAVLINK_MSG_ID_VEHICLE_ANGULAR_RATES:
+		handle_message_vehicle_angular_rates_msg(msg);
+		break;
     // --------------------------------------------------------------------------
 
 	case MAVLINK_MSG_ID_HIL_SENSOR:
@@ -452,6 +456,25 @@ void Simulator::handle_message_thruster_yaw_status_msg(
   f.thruster_yaw_2 = status.thruster_yaw_2;
 
   _thruster_yaw_status_msg_pub.publish(f);
+}
+
+void Simulator::handle_message_vehicle_angular_rates_msg(
+    const mavlink_message_t *msg) {
+  // command
+  mavlink_vehicle_angular_rates_t rates;
+  mavlink_msg_vehicle_angular_rates_decode(msg, &rates);
+
+  struct vehicle_angular_rates_s f;
+  memset(&f, 0, sizeof(f));
+
+  f.timestamp = hrt_absolute_time();
+
+  // Copy mavlink_vehicle_angular_rates_t msg_mavlink into vehicle_angular_rates msg
+  f.roll = rates.roll;
+  f.pitch = rates.pitch;
+  f.yaw = rates.yaw;
+
+  _vehicle_angular_rates_msg_pub.publish(f);
 }
 // -----------------------------------------------------------------------------
 
